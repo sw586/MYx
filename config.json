@@ -1,0 +1,47 @@
+{	
+    "dns": {
+    "servers": [
+    "119.29.29.29"
+    ]
+    },
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "block"
+            }
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",
+            "port": 8155,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "f5c8ff56-5ea9-4704-a62f-ca73c6fdf275"
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none"
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
+        }
+    ]
+}
