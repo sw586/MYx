@@ -1,4 +1,6 @@
 #!/bin/bash
+
+echo "这是一个示例脚本，已成功执行。"
 sudo -i 
 # 1. 更新系统
 apt-get update -y
