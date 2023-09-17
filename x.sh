@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sudo -i 
 # 1. 更新系统
 apt-get update -y
 
