@@ -1,33 +1,31 @@
-# 更新包列表
-sudo apt update
+#!/bin/bash
 
-# 安装必要的依赖
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+# 卸载旧版本
+echo "正在卸载旧版本..."
+sudo apt-get remove -y docker.io docker-doc docker-compose podman-docker containerd runc
 
-# 添加Docker官方的GPG密钥
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# 安装依赖
+echo "安装依赖..."
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
 
-# 添加Docker存储库
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# 添加Docker的官方GPG密钥
+echo "添加Docker的官方GPG密钥..."
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# 更新包列表（包括新添加的Docker存储库）
-sudo apt update
+# 添加Docker的Apt仓库
+echo "添加Docker的Apt仓库..."
+echo "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
 
-# 安装Docker Engine
-sudo apt install -y docker-ce docker-ce-cli containerd.io
+# 安装Docker
+echo "安装Docker..."
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# 启动并加入Docker服务
-sudo systemctl start docker
-sudo systemctl enable docker
+# 验证安装
+echo "验证安装..."
+sudo docker run hello-world
 
-# 添加当前用户到docker组，以允许非root用户运行Docker命令
-sudo usermod -aG docker $USER
-
-# 重新登录以应用组更改，或运行以下命令使其立即生效
-# newgrp docker
-
-# 验证Docker安装是否成功
-docker --version
-
-# 输出Docker信息
-docker info
+echo "Docker已成功安装！"
