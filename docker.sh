@@ -7,6 +7,8 @@ sudo apt-get remove -y docker.io docker-doc docker-compose podman-docker contain
 # 安装依赖
 echo "安装依赖..."
 sudo apt-get update
+apt upgrade -y
+sudo apt-get install jq -y
 sudo apt-get install -y ca-certificates curl gnupg
 
 # 添加Docker的官方GPG密钥
