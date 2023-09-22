@@ -10,8 +10,19 @@ apt-get install unzip screen -y
 mkdir -p /root/Xray
 
 # 4. 下载 Xray-linux-64.zip
-wget https://github.com/XTLS/Xray-core/releases/download/v1.8.3/Xray-linux-64.zip -O /root/Xray/Xray-linux-64.zip
+# 获取本机CPU架构
+cpu_arch=$(uname -m)
 
+# 根据CPU架构下载相应的文件
+if [ "$cpu_arch" == "aarch64" ]; then
+  wget https://github.com/XTLS/Xray-core/releases/download/v1.8.4/Xray-linux-arm64-v8a.zip
+  unzip /root/Xray/Xray-linux-arm64-v8a.zip -d /root/Xray
+elif [ "$cpu_arch" == "x86_64" ]; then
+  wget https://github.com/XTLS/Xray-core/releases/download/v1.8.4/Xray-linux-64.zip
+  unzip /root/Xray/Xray-linux-64.zip -d /root/Xray
+else
+  echo "不支持的CPU架构: $cpu_arch"
+fi
 # 5. 解压 Xray-linux-64.zip
 unzip /root/Xray/Xray-linux-64.zip -d /root/Xray
 
