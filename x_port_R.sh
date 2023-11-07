@@ -26,7 +26,7 @@ if jq '.inbounds[0].port = $newport' --argjson newport $PORT /root/Xray/config.j
 
         # 输出xray进程信息
         echo "xray进程信息："
-        pgrep -af xray
+        ps aux | grep xray | grep -v grep
 
     else
         echo "更新端口失败：临时文件为空。"
