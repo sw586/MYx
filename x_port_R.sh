@@ -21,8 +21,8 @@ if jq '.inbounds[0].port = $newport' --argjson newport $PORT /root/Xray/config.j
         # 等待一秒钟，确保xray进程已经完全停止
         sleep 1
 
-        # 重新启动xray服务
-        /root/Xray/xray -config=/root/Xray/config.json &
+        # 重新启动xray服务并在后台运行
+        nohup /root/Xray/xray -config=/root/Xray/config.json &> /dev/null &
 
         # 输出xray进程信息
         echo "xray进程信息："
