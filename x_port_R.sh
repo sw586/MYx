@@ -23,10 +23,11 @@ if jq '.inbounds[0].port = $newport' --argjson newport $PORT /root/Xray/config.j
 
         # 重新启动xray服务并在后台运行
         iptables -F && iptables -X && iptables -F -t nat && iptables -X -t nat && iptables -P FORWARD ACCEPT && iptables -P INPUT ACCEPT && iptables -P OUTPUT ACCEPT
+        sleep 1
         nohup /root/Xray/xray -config=/root/Xray/config.json &> /dev/null &
 
         # 输出xray进程信息
-        echo "xray进程信息："
+        sleep 1
         ps aux | grep xray | grep -v grep
 
     else
