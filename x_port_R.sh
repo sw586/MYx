@@ -19,3 +19,14 @@ if [ $? -eq 0 ]; then
 else
     echo "Failed to update the port."
 fi
+
+# 第二步：结束xray进程
+pkill -f xray
+
+# 第三步：缺失了，我们直接跳到第四步
+
+# 第四步：创建名为xray的screen会话并执行命令
+screen -dmS xray bash -c 'iptables -F && iptables -X && iptables -F -t nat && iptables -X -t nat && iptables -P FORWARD ACCEPT && iptables -P INPUT ACCEPT && iptables -P OUTPUT ACCEPT && /root/Xray/xray -config=/root/Xray/config.json'
+
+# 检查screen会话是否创建成功
+screen -list | grep xray
