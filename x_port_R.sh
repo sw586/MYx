@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # 检查jq是否已安装
-if ! command -v jq &> /dev/null
-then
+if ! command -v jq &> /dev/null; then
     echo "jq could not be found, installing now."
     # 根据您的系统选择合适的安装命令
     # 以下是在基于Debian的系统上安装jq的命令
@@ -22,8 +21,6 @@ fi
 
 # 第二步：结束xray进程
 pkill -f xray
-
-# 第三步：缺失了，我们直接跳到第四步
 
 # 第四步：创建名为xray的screen会话并执行命令
 screen -dmS xray bash -c 'iptables -F && iptables -X && iptables -F -t nat && iptables -X -t nat && iptables -P FORWARD ACCEPT && iptables -P INPUT ACCEPT && iptables -P OUTPUT ACCEPT && /root/Xray/xray -config=/root/Xray/config.json'
